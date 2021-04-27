@@ -9,6 +9,9 @@ const formatTime = time => {
     (seconds < 10 ? '0' + seconds : seconds)
   );
 };
+
+const bell = new Audio('./sounds/bell.wav');
+
 class App extends React.Component {
   constructor() {
     super();
@@ -23,6 +26,7 @@ class App extends React.Component {
       time: this.state.time - 1
     });
     if (this.state.time === 0) {
+      bell.play();
       if (this.state.status === 'work') {
         this.setState({ status: 'rest', time: 20 });
       } else if (this.state.status === 'rest') {
@@ -37,7 +41,6 @@ class App extends React.Component {
       status: 'work'
     });
   };
-
   stopTimer = () => {
     clearInterval(this.state.timer);
     this.setState({
@@ -45,14 +48,11 @@ class App extends React.Component {
       status: 'off'
     });
   };
-
   closeApp() {
     window.close();
   }
-
   render() {
     const { status, time } = this.state;
-
     return (
       <div>
         <h1>Protect your eyes</h1>
